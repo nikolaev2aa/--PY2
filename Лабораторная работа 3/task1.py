@@ -22,10 +22,21 @@ class Book:
 class PaperBook(Book):
     def __init__(self, name: str, author: str, pages: int):
         super().__init__(name, author)
-        if isinstance(pages, int) and pages > 0:  # Проверка на корректность входных данных
-            self.pages = pages
-        else:
-            raise AttributeError(f'Некорректное количество страниц:{pages!r}')
+        self.pages = pages
+
+    @property
+    def pages(self) -> int:
+        """Возвращает количество страниц в книге."""
+        return self._pages
+
+    @pages.setter
+    def pages(self, new_pages: int) -> None:
+        """Устанавливает количество страниц в книге."""
+        if not isinstance(new_pages, int):
+            raise TypeError("Количество страниц должно быть типа int")
+        if new_pages <= 0:
+            raise ValueError("Количество страниц должно быть положительным числом")
+        self._pages = new_pages
 
     def __str__(self):
         return f"Книга: {self.name}. Автор: {self.author}. Количество страниц: {self.pages}"
@@ -34,10 +45,21 @@ class PaperBook(Book):
 class AudioBook(Book):
     def __init__(self, name: str, author: str, duration: float):
         super().__init__(name, author)
-        if isinstance(duration, float) and duration > 0:  # Проверка на корректность входных данных
-            self.duration = duration
-        else:
-            raise AttributeError(f'Некорректная продолжительность аудиокниги:{duration!r}')
+        self.duration = duration
+
+        @property
+        def duration(self) -> float:
+            """Возвращает продолжительность аудиокниги."""
+            return self._duration
+
+        @duration.setter
+        def duration(self, new_duration: float) -> None:
+            """Устанавливает продолжительность аудиокниги."""
+            if not isinstance(new_duration, float):
+                raise TypeError("Продолжительность аудиокниги должна быть типа float")
+            if new_duration <= 0:
+                raise ValueError("Продолжительность аудиокниги должна быть положительной")
+            self._duration = new_duration
 
     def __str__(self):
         return f"Книга: {self.name}. Автор: {self.author}. Продолжительность аудиокниги: {self.duration}"
